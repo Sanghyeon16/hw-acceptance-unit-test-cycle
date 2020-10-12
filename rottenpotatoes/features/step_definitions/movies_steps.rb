@@ -1,7 +1,7 @@
 
-Given /the following movies exist/ do |movies_table|
+Given /^the following movies exist:$/ do |movies_table|
   movies_table.hashes.each do |movie|
-    Movie.create movie
+    Movie.create! movie
   end
 end
 
@@ -22,4 +22,9 @@ Then /I should see all the movies/ do
   Movie.all.each do |movie|
     step %{I should see "#{movie.title}"}
   end
+end
+
+Then /^the director of "(.*)" should be "([^"]*)"$/ do |movie_name, director_name|
+  expect(page).to have_content(movie_name)
+  expect(page.body).to match(/Director:\s#{director_name}/)
 end
